@@ -19,3 +19,12 @@
     border: 1px solid black;
     background-color: orangered;
 }
+
+.ball {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: hotpink;
+    border: 1px solid purple;
+    border-radius: 50%;
+}
