@@ -1,5 +1,7 @@
 const grid = document.querySelector('.grid')
-let score = document.querySelector('#score')
+let scoreCount = 0
+let scoreDisplay = document.querySelector('#score-disply')
+let score = document.querySelector('.score')
 const blockWidth = 100 
 const blockHeight = 20
 const boardWidth = 620
@@ -117,12 +119,14 @@ intervalId = setInterval(moveBall, 20)
 function checkForCollisions() {
     //check  for colllisions with blocks
     for(i = 0; i < blocks.length; i ++) {
-        if(ballCurrentPosition[0] > blocks[i].bottomLeft[0] && ballCurrentPosition[0] < blocks[i].bottomRight[0] && ballCurrentPosition[1] > blocks[i].bottomLeft[1] 
-            && ballCurrentPosition[1] < blocks[1].topLeft[1]) {
+        if(ballCurrentPosition[0] > blocks[i].bottomLeft[0] && ballCurrentPosition[0] < blocks[i].bottomRight[0] && (ballCurrentPosition[1] + ballDiameter) > blocks[i].bottomLeft[1]
+            && ballCurrentPosition[1] < blocks[i].topLeft[1]) {
                 const allBlocks = Array.from(document.querySelectorAll('.block'))
                 allBlocks[i].classList.remove('block')
-                blocks.splice(0,1)
+                blocks.splice(i,1)
                 changeDirection()
+                scoreCount++
+                scoreDisplay.innerHTML = scoreCount
             }
             
     }
@@ -141,10 +145,16 @@ function checkForCollisions() {
     }
 //check for game over
  if(ballCurrentPosition[1] === 0) {
-    score.innerHTML = 'you lose'
+    score.innerHTML = 'YOU LOSE!'
     clearInterval(intervalId)
     document.removeEventListener('keydown', moveUser)
 }
+}
+//check for a win
+if(blocks.length === 0) {
+    clearInterval(intervalId)
+    document.removeEventListener('keydown', moveUser) 
+    score.innerHTML = 'YOU WIN!'
 }
 
 
